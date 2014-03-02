@@ -24,11 +24,19 @@ manga_urls = []
 mangas = root.css(".indexComicDetailWrapper")#.attribute("href").value
 mangas.each do |manga|
   #連載日の画像を取得する
-  rensai_img = manga.css(".indexComicDetailOD03 img").attribute("src").value
-  #もし連載日の画像が完結済だったらそのマンガは取得しない
-  unless rensai_img == "./images/index_list_cmp_s.png"
-    manga_urls << url +"/"+ manga.css(".indexComicDetailOD01 a").attribute("href").value
+  img = manga.css(".indexComicDetailOD03 img")
+  unless img.empty?
+    rensai_img = img.attribute("src").value
+    unless rensai_img == "./images/index_list_cmp_s.png"
+      manga_urls << url +"/"+ manga.css(".indexComicDetailOD01 a").attribute("href").value
+    end
+  else
+    rensai_img = manga.css(".indexComicDetailTD03 img").attribute("src").value
+    unless rensai_img == "./images/index_list_cmp_s.png"
+      manga_urls << url +"/"+ manga.css(".indexComicDetailTD01 a").attribute("href").value
+    end
   end
+  #もし連載日の画像が完結済だったらそのマンガは取得しない
 end
 ##テスト用
 #puts manga_urls = ["http://urasunday.com/./mobupsycho100/index.html"]
